@@ -13,7 +13,7 @@ export default function Home() {
     );
   };
 
-  const [rule, setRule] = useState(30);
+  const [rule, setRule] = useState(34);
   const [blocks, setBlocks] = useState([0, 0, 1, 0, 0]);
   const [results, setResults] = useState(initResults());
 
@@ -62,7 +62,7 @@ export default function Home() {
           </div>
           <div className="my-2">
             <label className="mr-2" htmlFor="rule">
-              Size:
+              CA Rule:
             </label>
             <input
               className="px-2"
