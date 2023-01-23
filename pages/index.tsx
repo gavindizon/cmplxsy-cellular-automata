@@ -74,15 +74,6 @@ export default function Home() {
               min={0}
               max={255}
             />
-            {/* <select
-              name="rule"
-              title="rule"
-              value={rule}
-              onChange={(e) => setRule(parseInt(e.target.value))}
-            >
-              <option value={30}>Rule 30</option>
-              <option value={54}>Rule 54</option>
-            </select> */}
           </div>
         </div>
         <div className="bg-white p-3">
