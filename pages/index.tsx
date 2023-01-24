@@ -14,7 +14,7 @@ export default function Home() {
   };
 
   const [rule, setRule] = useState(34);
-  const [blocks, setBlocks] = useState([0, 0, 1, 0, 0]);
+  const [blocks, setBlocks] = useState([0, 0, 0, 1, 0]);
   const [results, setResults] = useState(initResults());
 
   const addBlock = () => {
@@ -31,12 +31,45 @@ export default function Home() {
     setResults(initResults(blocks.length - 1));
   };
 
+  const getPrevBlockRule = (currBlock: number, prevRow: number[]) => {
+    return [-1, 0, 1]
+      .map((n) => prevRow.at(currBlock + n) ?? prevRow.at(0))
+      .join("");
+  };
+
+  const learnValue = (
+    currBlock: number,
+    currRowIndex: number,
+    currRow: number[]
+  ) => {
+    const prevRule = getPrevBlockRule(
+      currBlock,
+      currRowIndex === 0 ? blocks : currRow
+    );
+    const binRule = rule.toString(2).padStart(8, "0");
+    const blockDec = parseInt(prevRule, 2);
+
+    return parseInt(binRule.charAt(7 - blockDec));
+  };
+
+  const handleStart = () => {
+    let arr: number[] = [];
+    let newArr = [...results];
+    results.forEach((row, idx) => {
+      arr = [];
+      row.forEach((block, bidx) => {
+        arr = [...arr, learnValue(bidx, idx, newArr[idx - 1])];
+      });
+      newArr[idx] = arr;
+    });
+    setResults(newArr);
+  };
+
   const KEY_COLOR: any = {
     "-1": "#ccc",
     "0": "white",
     "1": "black",
   };
-
   return (
     <>
       <Head>
@@ -140,6 +173,20 @@ export default function Home() {
               </div>
             );
           })}
+        </div>
+        <div className="flex justify-center mt-5 gap-3">
+          <button
+            className="bg-white text-black px-4 py-2"
+            onClick={handleStart}
+          >
+            Start
+          </button>
+          <button
+            className="bg-white text-black px-4 py-2"
+            onClick={() => setResults(initResults())}
+          >
+            Reset
+          </button>
         </div>
       </main>
     </>
